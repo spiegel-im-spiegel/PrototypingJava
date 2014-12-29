@@ -31,10 +31,10 @@ public final class Util {
     }
 
     /**
-     * 配列を文字列に変換し結合する（Java 8 の String#join 機能相当）
+     * 配列を文字列に変換し結合する（Java 8 の {@link String#join} 機能相当）
      * <br>※文字列に変換できるオブジェクトの配列が前提
      *
-     * @param delimiter : {@link String}   : 分離文字（{@code null} は空文字列と見なす）
+     * @param delimiter : {@link String}   : 分離文字（{@code null} および空文字列なら "'" に変換する）
      * @param array     : {@link Object}[] : オブジェクトの配列（{@code null} は空と見なす）
      * @return {@link String} ; 変換後の文字列（配列が空の場合は空文字列）
      */
@@ -46,7 +46,7 @@ public final class Util {
      * 配列を文字列に変換し結合する（Java 8 の {@link String#join} 機能相当＋α）
      * <br>※文字列に変換できるオブジェクトの配列が前提
      *
-     * @param delimiter : {@link String}     : 分離文字（{@code null} は空文字列と見なす）
+     * @param delimiter : {@link String}   : 分離文字（{@code null} および空文字列なら "," に変換する）
      * @param array     : {@link Object}[]   : オブジェクトの配列（{@code null} は空と見なす）
      * @param quoteType : {@link Util.Quote} : quote のタイプ
      * @return {@link String} ; 変換後の文字列（配列が空の場合は空文字列）
@@ -57,6 +57,9 @@ public final class Util {
         } else {
             StringBuilder sb = new StringBuilder();
             delimiter = null2String(delimiter);
+            if (Util.isBlank(delimiter)) {
+            	delimiter = ",";
+            }
             int count = 0;
             for (Object str : array) {
                 if (count > 0) {
@@ -202,8 +205,8 @@ public final class Util {
     }
 
     /**
-     * オブジェクトが null なら空文字列を返す。
-     * null 以外なら String に変換して返却
+     * オブジェクトが {@code null} なら空文字列を返す。
+     * {@code null} 以外なら String に変換して返却
      *
      * @param  obj : {@link Object} : 任意のインスタンスオブジェクト
      * @return {@link String}
@@ -217,7 +220,7 @@ public final class Util {
     }
 
     /**
-     * 文字列が null または空文字列なら true を返す。
+     * 文字列が {@code null} または空文字列なら true を返す。
      *
      * @param str : {@link String} : 任意の文字列
      * @return boolean
@@ -240,8 +243,8 @@ public final class Util {
      * ファイルが書き込み可能かどうかチェックする
      *
      * @param  filePath : {@link String} : ファイル名
-     * @return boolean ; ファイル名が {@code null} または空文字列なら書き込み可（{@code false}）とする。
-     *                    ファイルが存在しないなら書き込み可（{@code true}）とする。
+     * @return boolean ; ファイル名が {@code null} または空文字列なら書き込み可（false）とする。
+     *                    ファイルが存在しないなら書き込み可（false）とする。
      */
     public static boolean canWriteFile(String filePath){
         if (isBlank(filePath)) {
@@ -264,8 +267,8 @@ public final class Util {
      * ファイルが読み込み可能かどうかチェックする
      *
      * @param  filePath : {@link String} : ファイル名
-     * @return boolean ; ファイル名が {@code null} または空文字列なら読み込み不可（{@code false}）とする。
-     *                    ファイルが存在しないなら読み込み不可（{@code false}）とする
+     * @return boolean ; ファイル名が {@code null} または空文字列なら読み込み不可（false）とする。
+     *                    ファイルが存在しないなら読み込み不可（false）とする
      */
     public static boolean canReadFile(String filePath){
         if (isBlank(filePath)) {

@@ -70,7 +70,7 @@ public class TestUtil {
     @Test
     public void testStringJoin2() {
         String [] arry = {"abc", "def"}; //入力値
-        String result = "abcdef"; //期待値
+        String result = "abc,def"; //期待値
         assertEquals(result, Util.stringJoin(null, arry));
         assertEquals(result, Util.stringJoin("", arry));
     }
