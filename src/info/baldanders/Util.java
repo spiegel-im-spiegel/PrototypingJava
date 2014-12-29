@@ -5,6 +5,8 @@
  */
 package info.baldanders;
 
+import info.baldanders.jdbc.DataAccessProperties;
+
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,10 +18,10 @@ import java.util.Locale;
  */
 public final class Util {
 
-	/**
+    /**
      * 文字列連結（{@link Util.StringJoin}）時のフォーマット指定
      */
-    public enum Quote {
+    public static enum Quote {
         /** 無指定 */
         TYPE_NONE,
         /** SQL形式の quote */
@@ -102,7 +104,7 @@ public final class Util {
     }
 
     /** 日付変換用フォーマット */
-    private static String datetimeformat = "yyyy-MM-dd'T'HH:mm:ssZ";
+    private static final String datetimeformat = "yyyy-MM-dd'T'HH:mm:ssZ";
 
     /**
      * 日付を文字列に変換する。
@@ -221,7 +223,7 @@ public final class Util {
      * @return boolean
      */
     public static boolean isBlank(String str) {
-    	return (isNull(str) || str.length() == 0);
+        return (isNull(str) || str.length() == 0);
     }
 
     /**
