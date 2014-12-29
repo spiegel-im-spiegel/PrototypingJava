@@ -29,7 +29,7 @@ public final class DataAccess {
     /**
      * コンストラクタ（singleton なので private として実装）
      */
-    private DataAccess() {}
+    private DataAccess() { this.connection = null; }
 
     /**
      * DataAccess インスタンスの取得とデータベース接続
@@ -41,7 +41,7 @@ public final class DataAccess {
      * @throws IOException 接続情報を記述したプロパティファイルの内容が正しくない場合
      */
     public synchronized static DataAccess getInstance() throws ClassNotFoundException, SQLException, IllegalArgumentException, IOException {
-        if (instance == null) {
+        if (Util.isNull(instance)) {
             instance = new DataAccess();
 
             //接続情報の取得

@@ -66,7 +66,9 @@ public class TestJDBC {
         test02Select();
         test03Insert();
         test02Select();
-        test04Update();
+        test04aUpdate();
+        test02Select();
+        test04bUpdate();
         test02Select();
         test05Delete();
         test02Select();
@@ -113,11 +115,11 @@ public class TestJDBC {
         sql.append(",SYSDATE()");
         sql.append(");");
         DbStatement statement1 = dao.getStatement(sql.toString(), params);
-        statement1.insert();
-        dao.commit();
+        assertEquals(true, statement1.insert());
+        assertEquals(true, dao.commit());
     }
 
-    private void test04Update() throws Exception {
+    private void test04aUpdate() throws Exception {
         DataAccess dao = DataAccess.getInstance();
         ArrayList<DbParameter> params = new ArrayList<DbParameter>();
         StringBuilder sql = new StringBuilder();
@@ -132,8 +134,27 @@ public class TestJDBC {
         params.add(new DbParameter("Alice", Types.VARCHAR));
         sql.append(";");
         DbStatement statement1 = dao.getStatement(sql.toString(), params);
-        statement1.update();
-        dao.commit();
+        assertEquals(true, statement1.update());
+        assertEquals(true, dao.rollback());
+    }
+
+    private void test04bUpdate() throws Exception {
+        DataAccess dao = DataAccess.getInstance();
+        ArrayList<DbParameter> params = new ArrayList<DbParameter>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE M_PERSON SET");
+        sql.append(" PERSON_NAME = ?");
+        params.add(new DbParameter("Bob", Types.VARCHAR));
+        sql.append(",AGE = ?");
+        params.add(new DbParameter(42, Types.SMALLINT));
+        sql.append(",UPD_TIME = SYSDATE()");
+        sql.append(" WHERE");
+        sql.append(" PERSON_NAME = ?");
+        params.add(new DbParameter("Alice", Types.VARCHAR));
+        sql.append(";");
+        DbStatement statement1 = dao.getStatement(sql.toString(), params);
+        assertEquals(true, statement1.update());
+        assertEquals(true, dao.commit());
     }
 
     private void test05Delete() throws Exception {
@@ -146,7 +167,7 @@ public class TestJDBC {
         params.add(new DbParameter("Bob", Types.VARCHAR));
         sql.append(";");
         DbStatement statement1 = dao.getStatement(sql.toString(), params);
-        statement1.update();
-        dao.commit();
+        assertEquals(true, statement1.delete());
+        assertEquals(true, dao.commit());
     }
 }
