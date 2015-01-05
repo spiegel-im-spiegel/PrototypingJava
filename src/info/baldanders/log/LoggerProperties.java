@@ -3,22 +3,23 @@
  * <br>These codes are licensed under CC0.
  *     http://creativecommons.org/publicdomain/zero/1.0/
  */
-package info.baldanders.jdbc;
+package info.baldanders.log;
 
 import info.baldanders.Util;
+import info.baldanders.jdbc.DataAccessProperties;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.LogManager;
 
 /**
- * データアクセス用プロパティクラス
- * <br>標準のプロパティファイルを読み込む
+ * Logger プロパティ取得クラス
  */
-public final class DataAccessProperties {
+public final class LoggerProperties {
 
     /** プロパティファイル名 */
-    private static final String propertyFileName  = "dataAccess.properties";
+    private static final String propertyFileName  = "logger.properties";
 
     /** プロパティのインスタンス */
     private static Properties properties = null;
@@ -31,15 +32,22 @@ public final class DataAccessProperties {
      * @param key : {@link String} : キーワード
      * @return {@link String} ; キーワードに対する値
      *                           キーワードが {@code null} または空文字列の場合は空文字列を返す
-     * @throws IllegalArgumentException プロパティファイルが存在しない場合
-     * @throws IOException プロパティファイルの内容が正しくない場合
      */
-    public static String get(String key) throws IllegalArgumentException, IOException {
+    public static String get(String key) {
         if (Util.isBlank(key)) {
             return "";
         } else {
-            importFile(); //プロパティファイルをインポート
-            return properties.getProperty(key);
+        	//デフォルトの Logger 設定を読み込む
+			LogManager defaults = LogManager.getLogManager();
+			//プロパティファイルをインポート
+			try {
+				importFile();
+	            return properties.getProperty(key, defaults.getProperty(key));
+			} catch (IllegalArgumentException e) {
+	            return defaults.getProperty(key); //デフォルトの値を取得
+			} catch (IOException e) {
+	            return defaults.getProperty(key); //デフォルトの値を取得
+			}
         }
     }
     /**
@@ -56,7 +64,7 @@ public final class DataAccessProperties {
             properties = new Properties();
             try {
                 //プロパティファイルを読み込む
-                inStream = DataAccessProperties.class.getResourceAsStream(propertyFileName);
+                inStream = LoggerProperties.class.getResourceAsStream(propertyFileName);
                 if (Util.isNull(inStream)) {
                     throw new IllegalArgumentException("プロパティファイルの読み込みに失敗しました。" + propertyFileName + "の存在を確認してください。");
                 }

@@ -107,7 +107,7 @@ public final class Util {
     }
 
     /** 日付変換用フォーマット */
-    private static final String datetimeformat = "yyyy-MM-dd'T'HH:mm:ssZ";
+    private static final String datetimeformat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
     /**
      * 日付を文字列に変換する。
@@ -186,6 +186,26 @@ public final class Util {
                 return Integer.parseInt(str);
             } catch (NumberFormatException e) {
                 return 0;
+            }
+        }
+    }
+
+    /**
+     * 文字列を真偽値（boolean）に変換する。
+     *
+     * @param str : {@link String} : 数値を表す文字列
+     * @return boolean ; 引数が {@code null} または空文字列の場合は {@code false} を返す。
+     *                    parse に失敗した場合は例外ではなく {@code false} を返す。
+     */
+    public static boolean string2Boolean(String str) {
+        str = null2String(str).trim(); //整形
+        if (isBlank(str)) {
+            return false;
+        } else {
+            try {
+                return  Boolean.parseBoolean(str);
+            } catch (NumberFormatException e) {
+                return false;
             }
         }
     }

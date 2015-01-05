@@ -161,7 +161,7 @@ public class TestUtil {
      */
     @Test
     public void testDate2String1() {
-        String dateStr = "2014-12-31T23:59:59+0900"; //入力値＝期待値
+        String dateStr = "2014-12-31T23:59:59.999+0900"; //入力値＝期待値
         Date dt = Util.string2Date(dateStr);
         assertEquals(dateStr, Util.date2String(dt));
     }
@@ -216,6 +216,28 @@ public class TestUtil {
         assertEquals(0, Util.string2Integer(""));
         assertEquals(0, Util.string2Integer("dummy"));
         assertEquals(0, Util.string2Integer("100yen"));
+    }
+
+    /**
+     * {@link Util.string2Boolean} テスト
+     * <br>正常系
+     */
+    @Test
+    public void testString2Boolean1() {
+        assertEquals(true, Util.string2Boolean("true"));
+        assertEquals(false, Util.string2Boolean("false"));
+    }
+
+    /**
+     * {@link Util.string2Boolean} テスト
+     * <br>異常値
+     */
+    @Test
+    public void testString2Boolean2() {
+        assertEquals(false, Util.string2Boolean(null));
+        assertEquals(false, Util.string2Boolean(""));
+        assertEquals(false, Util.string2Boolean("dummy"));
+        assertEquals(false, Util.string2Boolean("123"));
     }
 
     /**
