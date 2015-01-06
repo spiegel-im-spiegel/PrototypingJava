@@ -6,7 +6,6 @@
 package info.baldanders.log;
 
 import info.baldanders.Util;
-import info.baldanders.jdbc.DataAccessProperties;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,9 +27,10 @@ public final class LoggerProperties {
      * プロパティ値を取得する
      * <br>プロパティファイルから取得。
      *     ファイルの読み込みは最初の1回のみ行われる。
+     *     プロパティファイルがない（または読み込みに失敗した）場合は、デフォルト値を返す。
      *
      * @param key : {@link String} : キーワード
-     * @return {@link String} ; キーワードに対する値
+     * @return {@link String} ; キーワードに対する値。
      *                           キーワードが {@code null} または空文字列の場合は空文字列を返す
      */
     public static String get(String key) {

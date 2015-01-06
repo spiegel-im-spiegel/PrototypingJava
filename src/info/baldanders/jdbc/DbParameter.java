@@ -9,7 +9,6 @@ import java.sql.Types;
 
 /**
  * SQLステートメント用パラメータ情報クラス
- *
  */
 public final class DbParameter {
 
@@ -21,8 +20,6 @@ public final class DbParameter {
 
     /**
      * コンストラクタ
-     *
-     * @return DbParameter
      */
     public DbParameter() {
         this.value = null;
@@ -34,7 +31,6 @@ public final class DbParameter {
      *
      * @param val  : {@link Object} : パラメータ値
      * @param type : int : パラメータのタイプ（{@link Types}）
-     * @return DbParameter
      */
     public DbParameter(Object val, int type) {
         this.value = val;

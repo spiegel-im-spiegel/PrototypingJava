@@ -5,8 +5,6 @@
  */
 package info.baldanders;
 
-import info.baldanders.jdbc.DataAccessProperties;
-
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -111,13 +109,13 @@ public final class Util {
 
     /**
      * 日付を文字列に変換する。
-     * <br>"2014-12-31T23:59:59+0900" 形式に変換。
+     * <br>"2014-12-31T23:59:59.999+0900" 形式に変換。
      *
      * @param {@link Date} dt ; 日付
-     * @return {@link String} ; "2014-12-31T23:59:59+0900" 形式。日付が {@code null} なら空文字列を返す
+     * @return {@link String} ; "2014-12-31T23:59:59.999+0900" 形式。日付が {@code null} なら空文字列を返す
      */
     public static String date2String(Date dt) {
-        return date2String(dt, Locale.JAPAN);
+        return date2String(dt, Locale.getDefault());
     }
 
     /**
@@ -126,7 +124,7 @@ public final class Util {
      *
      * @param dt       : {@link Date}   : 日付
      * @param locale   : {@link Locale} : ロケール
-     * @return {@link String} ; "2014-12-31T23:59:59+0900" 形式。日付・ロケールが {@code null} なら空文字列を返す
+     * @return {@link String} ; "2014-12-31T23:59:59.999+0900" 形式。日付・ロケールが {@code null} なら空文字列を返す
      */
     public static String date2String(Date dt, Locale locale) {
         if (isNull(dt) || isNull(locale)) {
@@ -151,7 +149,7 @@ public final class Util {
     /**
      * 文字列を日付に変換する（ロケールを指定）。
      *
-     * @param str    : {@link String} : 日付を表す文字列（"2014-12-31T23:59:59+0900" 形式）
+     * @param str    : {@link String} : 日付を表す文字列（"2014-12-31T23:59:59.999+0900" 形式）
      * @param locale : {@link Locale} : ロケール
      * @return {@link Date} ; 引数が {@code null} または空文字列の場合は例外ではなく {@code null} を返す。
      *                         parse に失敗した場合は例外ではなく {@code null} を返す。
@@ -226,7 +224,7 @@ public final class Util {
 
     /**
      * オブジェクトが {@code null} なら空文字列を返す。
-     * {@code null} 以外なら String に変換して返却
+     * {@code null} 以外なら {@link String} に変換して返却
      *
      * @param  obj : {@link Object} : 任意のインスタンスオブジェクト
      * @return {@link String}
@@ -240,7 +238,7 @@ public final class Util {
     }
 
     /**
-     * 文字列が {@code null} または空文字列なら true を返す。
+     * 文字列が {@code null} または空文字列なら {@code true} を返す。
      *
      * @param str : {@link String} : 任意の文字列
      * @return boolean
@@ -250,7 +248,7 @@ public final class Util {
     }
 
     /**
-     * オブジェクトが null なら true を返す。
+     * オブジェクトが {@code null} なら {@code true} を返す。
      *
      * @param  obj : {@link Object} : 任意のインスタンスオブジェクト
      * @return boolean
@@ -263,8 +261,8 @@ public final class Util {
      * ファイルが書き込み可能かどうかチェックする
      *
      * @param  filePath : {@link String} : ファイル名
-     * @return boolean ; ファイル名が {@code null} または空文字列なら書き込み可（false）とする。
-     *                    ファイルが存在しないなら書き込み可（false）とする。
+     * @return boolean ; ファイル名が {@code null} または空文字列なら書き込み不可 {@code false} とする。
+     *                    ファイルが存在しないなら書き込み可 {@code true} とする。
      */
     public static boolean canWriteFile(String filePath){
         if (isBlank(filePath)) {
@@ -287,8 +285,8 @@ public final class Util {
      * ファイルが読み込み可能かどうかチェックする
      *
      * @param  filePath : {@link String} : ファイル名
-     * @return boolean ; ファイル名が {@code null} または空文字列なら読み込み不可（false）とする。
-     *                    ファイルが存在しないなら読み込み不可（false）とする
+     * @return boolean ; ファイル名が {@code null} または空文字列なら読み込み不可 {@code false} とする。
+     *                    ファイルが存在しないなら読み込み不可 {@code false} とする
      */
     public static boolean canReadFile(String filePath){
         if (isBlank(filePath)) {

@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 /**
  * SQLクエリ結果のデータセットクラス
- * <br>SQLクエリ結果を2次元配列 row に格納する
- *
+ * <br>SQLクエリ結果を2次元配列 row に格納する。
+ * 行位置は 1,2,... で指定すること（zero origin ではない）。
  */
 public final class DataSet {
 
@@ -27,21 +27,17 @@ public final class DataSet {
 
     /**
      * コンストラクタ
-     *
-     * @return DataSet
      */
     public DataSet() {
         this.row = null;
         this.columnCount = 0;
-
     }
 
     /**
      * コンストラクタ
      *
      * @param rs : {@link ResultSet} : クエリ結果
-     * @return DataSet
-     * @throws SQLException テーブル情報の取得に失敗した場合。結果の取得に失敗した場合。
+     * @throws SQLException テーブル情報の取得に失敗した場合。または結果の取得に失敗した場合。
      */
     public DataSet(ResultSet rs) throws SQLException {
         this.row = null;
@@ -65,7 +61,7 @@ public final class DataSet {
      * テーブル情報の取得
      *
      * @param rs : {@link ResultSet} : クエリ結果
-     * @return boolean ; クエリ結果が {@code null} の場合は false。テーブル情報の取得に成功した場合は true。
+     * @return boolean ; クエリ結果が {@code null} の場合は {@code false}。テーブル情報の取得に成功した場合は {@code true}。
      * @throws SQLException テーブル情報の取得に失敗した場合
      */
     private boolean getMetaData(ResultSet rs) throws SQLException {
@@ -93,7 +89,8 @@ public final class DataSet {
     }
 
     /**
-     * finalize <br>行データをクリアする
+     * finalize
+     * <br>データセットをクリアする
      */
     @Override
     protected void finalize() throws Throwable {
@@ -107,7 +104,7 @@ public final class DataSet {
     /**
      * データの行数を取得する
      *
-     * @return int ; データの行数。クエリ結果が {@code null} の場合は 0 を返す。
+     * @return int ; データの行数。クエリ結果が {@code null} の場合は {@code 0} を返す。
      */
     public int sizeRow() {
         if (Util.isNull(this.row)) {
@@ -120,7 +117,7 @@ public final class DataSet {
     /**
      * データのカラム数を取得する
      *
-     * @return int ; データのカラム数
+     * @return int ; データのカラム数（クエリ結果のメタデータから取得した値）
      */
     public int sizeColumn() {
         return this.columnCount;

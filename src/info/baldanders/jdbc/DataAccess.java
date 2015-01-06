@@ -33,6 +33,8 @@ public final class DataAccess {
 
     /**
      * DataAccess インスタンスの取得とデータベース接続
+     * <br>mariaDB JDBC Driver を使用。
+     * <br>https://mariadb.com/kb/en/mariadb/client-libraries/mariadb-java-client/
      *
      * @return {@link DbStatement} ;
      * @throws ClassNotFoundException JDBC ドライバの登録に失敗した場合
@@ -50,7 +52,7 @@ public final class DataAccess {
             String password = DataAccessProperties.get("password");
 
             //ドライバクラスを登録する
-            Class.forName("org.mariadb.jdbc.Driver");
+            Class.forName("org.mariadb.jdbc.Driver"); //mariaDB JDBC Driver
 
             //接続オブジェクトの取得
             instance.connection = DriverManager.getConnection(url, user, password);
@@ -82,7 +84,7 @@ public final class DataAccess {
     /**
      * トランザクションのコミット
      *
-     * @return データベースに接続していない場合は false。コミットが実行されたら true。
+     * @return データベースに接続していない場合は {@code false}。コミットが実行されたら {@code true}。
      * @throws SQLException コミット時の致命的エラー
      */
     public boolean commit() throws SQLException {
@@ -97,7 +99,7 @@ public final class DataAccess {
     /**
      * トランザクションのロールバック
      *
-     * @return データベースに接続していない場合は false。ロールバックが実行されたら true。
+     * @return データベースに接続していない場合は {@code false}。ロールバックが実行されたら {@code true}。
      * @throws SQLException ロールバック時の致命的エラー
      */
     public boolean rollback() throws SQLException {

@@ -18,7 +18,7 @@ import javax.naming.NamingException;
 
 /**
  * Logger Factory クラス
- * <br>java.util.logging.Logger インスタンスの取得クラス
+ * <br>java.util.logging.Logger インスタンスの取得
  */
 public final class LoggerFactory {
 
@@ -31,7 +31,9 @@ public final class LoggerFactory {
     /** アプリケーション名 */
     private static String appName;
 
+    /** static initializer */
 	static {
+		//ハンドラを生成
 		try {
 	        //プロパティを取得する
 			String pattern = LoggerProperties.get("java.util.logging.FileHandler.pattern"); //ログファイル名
@@ -44,20 +46,22 @@ public final class LoggerFactory {
 			//出力レベル
 			fileHandler.setLevel(getLevel4File());
 			consoleHandler.setLevel(getLevel4Console());
-			//フォーマッタの指定
+			//フォーマットの指定
 			fileHandler.setFormatter(new LogFormatter());
 			consoleHandler.setFormatter(new LogFormatter());
-			//アプリケーション名を取得（最後にピリオドをセットする）
-			try {
-				InitialContext ctx = new InitialContext();
-				appName = ctx.lookup("java:app/AppName").toString() + ".";
-			} catch (NamingException e) {
-				appName = "PrototypingJava.";
-			}
 		} catch (SecurityException e) {
-            e.printStackTrace(); //どうしようもないので例外情報を標準エラー出力に吐き出す
+			fileHandler = null;
+			consoleHandler = null;
 		} catch (IOException e) {
-            e.printStackTrace(); //どうしようもないので例外情報を標準エラー出力に吐き出す
+			fileHandler = null;
+			consoleHandler = null;
+		}
+		//アプリケーション名を取得（末尾にピリオドを付加する）
+		try {
+			InitialContext ctx = new InitialContext();
+			appName = ctx.lookup("java:app/AppName").toString() + ".";
+		} catch (NamingException e) {
+			appName = "PrototypingJava.";
 		}
 	}
 
@@ -80,11 +84,11 @@ public final class LoggerFactory {
      */
 	public static Logger getLogger(String name, Level level) {
 		Logger logger = Logger.getLogger(appName + name);
-		//ログファイルのハンドラ
-		if (fileHandler != null) {
+		//ハンドラを追加
+		if (!Util.isNull(fileHandler)) {
 			logger.addHandler(fileHandler);
 		}
-		if (consoleHandler != null) {
+		if (!Util.isNull(consoleHandler)) {
 			logger.addHandler(consoleHandler);
 		}
 		//出力レベル
@@ -101,19 +105,19 @@ public final class LoggerFactory {
     /**
      * プロパティファイルから出力レベルを取得する
      *
-     * @return {@link Level} 出力レベル。
-     *                        ファイル用と標準エラー出力用で優先順位の低いほうを返す。
+     * @return {@link Level} ; 出力レベル。
+     *                          ファイル用と標準エラー出力用で優先順位の低いほうを返す。
      */
 	private static Level getLevel() {
 		Level levelFile = getLevel4File();
 		Level levelConsole = getLevel4Console();
-		return  (levelFile.intValue() < levelConsole.intValue()) ? levelFile : levelConsole;
+		return (levelFile.intValue() < levelConsole.intValue()) ? levelFile : levelConsole;
 	}
 
 	/**
      * プロパティファイルから出力レベルを取得する（ファイル出力用）
      *
-     * @return {@link Level} 出力レベル
+     * @return {@link Level} ; 出力レベル
      */
 	private static Level getLevel4File() {
 		Level level = Level.INFO; //出力レベルのデフォルト
@@ -128,7 +132,7 @@ public final class LoggerFactory {
     /**
      * プロパティファイルから出力レベルを取得する（標準エラー出力用）
      *
-     * @return {@link Level} 出力レベル
+     * @return {@link Level} ; 出力レベル
      */
 	private static Level getLevel4Console() {
 		Level level = Level.INFO; //出力レベルのデフォルト

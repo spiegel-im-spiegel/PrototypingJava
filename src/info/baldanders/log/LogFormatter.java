@@ -13,17 +13,20 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 /**
- * Formatter クラス
- * <br>{@link Formatter} クラスを継承
+ * Formatter クラス（継承クラス）
+ * @see java.util.logging.Formatter
  */
 public class LogFormatter extends Formatter {
 
-	/* (non-Javadoc)
+	/**
+	 * ログレコードをフォーマット
+	 * <br>ログレコードを以下の形式に整形する。
+	 * <blockquote>2015-01-05T17:49:25.129+0900 [SEVERE ] : Therad(10) : info.baldanders.ut.TestLogger (testLoggerFactory) : 致命的エラー</blockquote>
 	 * @see java.util.logging.Formatter#format(java.util.logging.LogRecord)
 	 */
 	@Override
 	public synchronized String format(LogRecord record) {
-		final StringBuffer msg = new StringBuffer(131);
+		final StringBuffer msg = new StringBuffer(128);
 
 		//時刻
 		msg.append(Util.date2String(new Date(record.getMillis()))).append(" ");
@@ -44,7 +47,7 @@ public class LogFormatter extends Formatter {
 		} else if (level == Level.FINEST) {
 			msg.append("[FINEST ] : ");
 		} else {
-			msg.append("[-------] : ");
+			msg.append("[").append(level.getName()).append("] : ");
 		}
 		//スレッドID
 		msg.append("Thread(").append(record.getThreadID()).append(") : ");
@@ -63,7 +66,6 @@ public class LogFormatter extends Formatter {
 				
 			}
 		}
-		
 		return msg.toString();
 	}
 }

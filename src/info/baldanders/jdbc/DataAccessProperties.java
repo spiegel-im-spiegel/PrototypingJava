@@ -13,7 +13,7 @@ import java.util.Properties;
 
 /**
  * データアクセス用プロパティクラス
- * <br>標準のプロパティファイルを読み込む
+ * <br>プロパティファイルを読み込む
  */
 public final class DataAccessProperties {
 
@@ -29,7 +29,7 @@ public final class DataAccessProperties {
      *     ファイルの読み込みは最初の1回のみ行われる。
      *
      * @param key : {@link String} : キーワード
-     * @return {@link String} ; キーワードに対する値
+     * @return {@link String} ; キーワードに対する値。
      *                           キーワードが {@code null} または空文字列の場合は空文字列を返す
      * @throws IllegalArgumentException プロパティファイルが存在しない場合
      * @throws IOException プロパティファイルの内容が正しくない場合

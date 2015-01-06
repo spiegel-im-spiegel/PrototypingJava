@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 /**
  * SQLクエリ結果の行データクラス
- * <br>各カラムのデータはすべて String または null で格納する
- *
+ * <br>各カラムのデータはすべて {@link String} または {code null} で格納する。
+ * カラム位置は 1,2,... で指定すること（zero origin ではない）。
  */
 public final class DataRow {
 
@@ -23,8 +23,6 @@ public final class DataRow {
 
     /**
      * コンストラクタ
-     *
-     * @return DataRow
      */
     public DataRow() {
         this.column = null;
@@ -35,7 +33,6 @@ public final class DataRow {
      *
      * @param rs          : {@link ResultSet} : クエリ結果
      * @param columnCount : int               : カラム数
-     * @return DataRow
      * @throws SQLException カラムの値の取得に失敗した場合
      */
     public DataRow(ResultSet rs, int columnCount) throws SQLException {
@@ -59,7 +56,8 @@ public final class DataRow {
     }
 
     /**
-     * finalize <br>行データをクリアする
+     * finalize
+     * <br>行データをクリアする
      */
     @Override
     protected void finalize() throws Throwable {
@@ -73,7 +71,7 @@ public final class DataRow {
     /**
      * データのカラム数を取得する
      *
-     * @return int ; データのカラム数。カラムデータが {@code null} の場合は 0 を返す。
+     * @return int ; データのカラム数。カラムデータが {@code null} の場合は {@code 0} を返す。
      */
     public int size() {
         if (Util.isNull(this.column)) {
@@ -119,6 +117,8 @@ public final class DataRow {
 
     /**
      * 配列に変換する
+     * <br>{@link Object} 配列を返すが、内容は文字列または {@code null} なので、
+     * 文字列以外の値の場合は呼び出し側で明示的に変換を行う必要がある。
      *
      * @return {@link Object} [] ; カラムデータが {@code null} の場合は {@code null} を返す。
      */
@@ -131,7 +131,8 @@ public final class DataRow {
     }
 
     /**
-     * 文字列変換（CSV形式）
+     * 行を丸ごと文字列に変換する（CSV形式）
+     * <br>CSV形式だが末尾の改行コードは含まない。
      *
      * @return {@link String} ; カラムデータが {@code null} の場合は空文字列を返す。
      */

@@ -24,8 +24,6 @@ public final class DbStatement {
 
     /**
      * コンストラクタ
-     *
-     * @return DbStatement
      */
     public DbStatement() {
         this.statement = null;
@@ -36,7 +34,6 @@ public final class DbStatement {
      *
      * @param connection : {@link Connection} : DB接続オブジェクト
      * @param sql        : {@link String} : SQL文
-     * @return DbStatement
      * @exception SQLException ステートメントの取得に失敗した場合
      */
     public DbStatement(Connection connection, String sql) throws SQLException {
@@ -49,7 +46,6 @@ public final class DbStatement {
      * @param connection : {@link Connection} : DB接続オブジェクト
      * @param sql        : {@link String} : SQL文
      * @param paramList  : {@link ArrayList}<{@link DbParameter}> : パラメータのリスト
-     * @return DbStatement
      * @exception SQLException ステートメントの取得に失敗した場合。またはパラメータのセットに失敗した場合
      */
     public DbStatement(Connection connection, String sql, ArrayList<DbParameter> paramList) throws SQLException {
@@ -84,7 +80,7 @@ public final class DbStatement {
      *
      * @param index : int : ステートメント中のプレースホルダの index
      * @param param : {@link DbParameter} : パラメータ
-     * @return boolean ; ステートメントが {@code null} の場合は false。パラメータがセットできれば true。
+     * @return boolean ; ステートメントが {@code null} の場合は {@code false} を返す。パラメータがセットできれば {@code true} を返す。
      * @exception SQLException パラメータのセットに失敗した場合
      */
     public boolean setParameter(int index, DbParameter param) throws SQLException {
@@ -111,8 +107,8 @@ public final class DbStatement {
     }
 
     /**
-     * finalize <br>ステートメントを閉じる
-     *
+     * finalize
+     * <br>ステートメントを閉じる
      */
     @Override
     protected void finalize() throws Throwable {
@@ -126,22 +122,24 @@ public final class DbStatement {
     /**
      * クエリを実行する
      *
-     * @return {@link ResultSet} ; ステートメントが {@code null} の場合は {@code null} を返す。
+     * @return {@link DataSet} ; 実行結果のデータセット。
+     *                            ステートメントが {@code null} の場合は {@code null} を返す。
      * @exception SQLException クエリに失敗した場合
      */
-    public ResultSet select() throws SQLException {
+    public DataSet select() throws SQLException {
         if (Util.isNull(this.statement)) {
             return null;
         } else {
-            return this.statement.executeQuery();
+        	ResultSet rs = this.statement.executeQuery();
+            return new DataSet(rs);
         }
     }
 
     /**
      * SQL（DML文）を実行する
      *
-     * @return Boolean ; ステートメントが {@code null} の場合は false を返す。
-     * @exception SQLException ; 更新に失敗した場合
+     * @return boolean ; ひとつ以上の更新があれば {@code true} を返す。ステートメントが {@code null} の場合は {@code false} を返す。
+     * @exception SQLException ; 実行に失敗した場合
      */
     public Boolean update() throws SQLException {
         if (Util.isNull(this.statement)) {
@@ -159,8 +157,8 @@ public final class DbStatement {
     /**
      * SQL（DML文）を実行する（別名）
      *
-     * @return Boolean ; ステートメントが {@code null} の場合は false を返す。
-     * @exception SQLException ; 更新に失敗した場合
+     * @return boolean ; ひとつ以上の更新があれば {@code true} を返す。ステートメントが {@code null} の場合は {@code false} を返す。
+     * @exception SQLException ; 実行に失敗した場合
      */
     public Boolean insert() throws SQLException {
         return update();
@@ -169,28 +167,10 @@ public final class DbStatement {
     /**
      * SQL（DML文）を実行する（別名）
      *
-     * @return Boolean ; ステートメントが {@code null} の場合は false を返す。
-     * @exception SQLException ; 更新に失敗した場合
+     * @return boolean ; ひとつ以上の更新があれば {@code true} を返す。ステートメントが {@code null} の場合は {@code false} を返す。
+     * @exception SQLException ; 実行に失敗した場合
      */
     public Boolean delete() throws SQLException {
         return update();
-    }
-
-    /**
-     * データセットを取得する
-     *
-     * @return {@link ResultSet} ; ステートメントが {@code null} の場合は {@code null} を返す。
-     *                              取得に失敗して例外が発生した場合は {@code null} を返す。
-     */
-    public ResultSet getDataSet() {
-        if (Util.isNull(this.statement)) {
-            return null;
-        } else {
-            try {
-                return this.statement.getResultSet();
-            } catch (SQLException e) {
-                return null;
-            }
-        }
     }
 }

@@ -7,12 +7,9 @@ package info.baldanders.ut;
 
 import static org.junit.Assert.*;
 
-import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Date;
 
-import info.baldanders.Util;
 import info.baldanders.jdbc.DataAccess;
 import info.baldanders.jdbc.DataAccessProperties;
 import info.baldanders.jdbc.DataSet;
@@ -26,8 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * @author spiegel
- *
+ * {@link DataAccess} クラス用単体テスト
  */
 public class TestJDBC {
 
@@ -89,8 +85,7 @@ public class TestJDBC {
     private void test02Select() throws Exception {
         DataAccess dao = DataAccess.getInstance();
         DbStatement statement = dao.getStatement("SELECT * FROM M_PERSON;");
-        ResultSet rs = statement.select();
-        DataSet ds = new DataSet(rs);
+        DataSet ds = statement.select();
         if (ds.sizeRow() == 0) {
             System.out.println("データがない");
             assertEquals("", ds.toString());
