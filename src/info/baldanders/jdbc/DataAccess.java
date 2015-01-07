@@ -118,7 +118,7 @@ public final class DataAccess {
      * @return {@link DbStatement} ; データベースに接続していない場合は {@code null}。
      * @exception SQLException ステートメントの生成に失敗した場合
      */
-    public synchronized DbStatement getStatement(String sql) throws SQLException {
+    public DbStatement getStatement(String sql) throws SQLException {
         return getStatement(sql, null);
     }
 
@@ -130,7 +130,7 @@ public final class DataAccess {
      * @return {@link DbStatement} ; データベースに接続していない場合は {@code null}。
      * @exception SQLException ステートメントの生成に失敗した場合
      */
-    public synchronized DbStatement getStatement(String sql, ArrayList<DbParameter> paramList) throws SQLException {
+    public DbStatement getStatement(String sql, ArrayList<DbParameter> paramList) throws SQLException {
         if (Util.isNull(this.connection)) {
             return null;
         } else {
