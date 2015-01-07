@@ -34,8 +34,8 @@ JDBC を使った RBBMS データアクセス・クラス群。
 
 ### info.baldanders.log.* クラス群
 
-`java.util.logging.Logger` クラスのラッパー。
-システムプロパティを汚さないようにしています。
+`java.util.logging.Logger` インスタンスを生成します。
+システムプロパティを汚さないように独自のハンドラおよびフォーマッタを組み込んでいます。
 簡単な使い方は `info.baldanders.ut.TestLogger.java` を参考にどうぞ。
 
 ## 外部ライブラリについて
