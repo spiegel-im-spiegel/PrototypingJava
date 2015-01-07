@@ -47,7 +47,7 @@ JDBC を使った RBBMS データアクセス・クラス群。
 `info.baldanders.jdbc.DataAccess` クラスについて，ここでは MriaDB の JDBC ドライバを用いています。
 他の RDBMS およびそのドライバを用いる際は `getInstance` メソッド内の
 
-```
+```java
 //ドライバクラスを登録する
 Class.forName("org.mariadb.jdbc.Driver");
 ```
