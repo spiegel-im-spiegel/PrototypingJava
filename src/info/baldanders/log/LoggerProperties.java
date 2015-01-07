@@ -37,17 +37,17 @@ public final class LoggerProperties {
         if (Util.isBlank(key)) {
             return "";
         } else {
-        	//デフォルトの Logger 設定を読み込む
-			LogManager defaults = LogManager.getLogManager();
-			//プロパティファイルをインポート
-			try {
-				importFile();
-	            return properties.getProperty(key, defaults.getProperty(key));
-			} catch (IllegalArgumentException e) {
-	            return defaults.getProperty(key); //デフォルトの値を取得
-			} catch (IOException e) {
-	            return defaults.getProperty(key); //デフォルトの値を取得
-			}
+            //デフォルトの Logger 設定を読み込む
+            LogManager defaults = LogManager.getLogManager();
+            //プロパティファイルをインポート
+            try {
+                importFile();
+                return properties.getProperty(key, defaults.getProperty(key));
+            } catch (IllegalArgumentException e) {
+                return defaults.getProperty(key); //デフォルトの値を取得
+            } catch (IOException e) {
+                return defaults.getProperty(key); //デフォルトの値を取得
+            }
         }
     }
     /**
@@ -77,7 +77,7 @@ public final class LoggerProperties {
                     try {
                         inStream.close();
                     } catch (IOException e) {
-                    	//close の例外は無視する
+                        //close の例外は無視する
                     }
                 }
             }

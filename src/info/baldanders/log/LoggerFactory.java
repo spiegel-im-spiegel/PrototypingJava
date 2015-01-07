@@ -32,38 +32,38 @@ public final class LoggerFactory {
     private static String appName;
 
     /** static initializer */
-	static {
-		//ハンドラを生成
-		try {
-	        //プロパティを取得する
-			String pattern = LoggerProperties.get("java.util.logging.FileHandler.pattern"); //ログファイル名
-			int limit = Util.string2Integer(LoggerProperties.get("java.util.logging.FileHandler.limit")); //最大バイト数（0で制限なし）
-			int count = Util.string2Integer(LoggerProperties.get("java.util.logging.FileHandler.count")); //最大バイト数
-			boolean append = Util.string2Boolean(LoggerProperties.get("java.util.logging.FileHandler.append")); //追記モード
-			//ハンドラを生成
-			fileHandler = new FileHandler(pattern, limit, count, append);
-			consoleHandler = new ConsoleHandler();
-			//出力レベル
-			fileHandler.setLevel(getLevel4File());
-			consoleHandler.setLevel(getLevel4Console());
-			//フォーマットの指定
-			fileHandler.setFormatter(new LogFormatter());
-			consoleHandler.setFormatter(new LogFormatter());
-		} catch (SecurityException e) {
-			fileHandler = null;
-			consoleHandler = null;
-		} catch (IOException e) {
-			fileHandler = null;
-			consoleHandler = null;
-		}
-		//アプリケーション名を取得（末尾にピリオドを付加する）
-		try {
-			InitialContext ctx = new InitialContext();
-			appName = ctx.lookup("java:app/AppName").toString() + ".";
-		} catch (NamingException e) {
-			appName = "PrototypingJava.";
-		}
-	}
+    static {
+        //ハンドラを生成
+        try {
+            //プロパティを取得する
+            String pattern = LoggerProperties.get("java.util.logging.FileHandler.pattern"); //ログファイル名
+            int limit = Util.string2Integer(LoggerProperties.get("java.util.logging.FileHandler.limit")); //最大バイト数（0で制限なし）
+            int count = Util.string2Integer(LoggerProperties.get("java.util.logging.FileHandler.count")); //最大バイト数
+            boolean append = Util.string2Boolean(LoggerProperties.get("java.util.logging.FileHandler.append")); //追記モード
+            //ハンドラを生成
+            fileHandler = new FileHandler(pattern, limit, count, append);
+            consoleHandler = new ConsoleHandler();
+            //出力レベル
+            fileHandler.setLevel(getLevel4File());
+            consoleHandler.setLevel(getLevel4Console());
+            //フォーマットの指定
+            fileHandler.setFormatter(new LogFormatter());
+            consoleHandler.setFormatter(new LogFormatter());
+        } catch (SecurityException e) {
+            fileHandler = null;
+            consoleHandler = null;
+        } catch (IOException e) {
+            fileHandler = null;
+            consoleHandler = null;
+        }
+        //アプリケーション名を取得（末尾にピリオドを付加する）
+        try {
+            InitialContext ctx = new InitialContext();
+            appName = ctx.lookup("java:app/AppName").toString() + ".";
+        } catch (NamingException e) {
+            appName = "PrototypingJava.";
+        }
+    }
 
     /**
      * {@link Logger} インスタンスの取得
@@ -71,9 +71,9 @@ public final class LoggerFactory {
      * @param name : {@link String} : logger 名
      * @return {@link Logger} インスタンス
      */
-	public static Logger getLogger(String name) {
-		return getLogger(name, null);
-	}
+    public static Logger getLogger(String name) {
+        return getLogger(name, null);
+    }
 
     /**
      * {@link Logger} インスタンスの取得（レベル指定あり）
@@ -82,25 +82,25 @@ public final class LoggerFactory {
      * @param level : {@link Level}  : 出力レベル
      * @return {@link Logger} インスタンス
      */
-	public static Logger getLogger(String name, Level level) {
-		Logger logger = Logger.getLogger(appName + name);
-		//ハンドラを追加
-		if (!Util.isNull(fileHandler)) {
-			logger.addHandler(fileHandler);
-		}
-		if (!Util.isNull(consoleHandler)) {
-			logger.addHandler(consoleHandler);
-		}
-		//出力レベル
-		if (Util.isNull(level)) {
-			level = getLevel(); //レベルの指定がない場合はプロパティファイルから取得する
-		}
-		logger.setLevel(level);
-		//親 logger に送信しない
-		logger.setUseParentHandlers(false);
+    public static Logger getLogger(String name, Level level) {
+        Logger logger = Logger.getLogger(appName + name);
+        //ハンドラを追加
+        if (!Util.isNull(fileHandler)) {
+            logger.addHandler(fileHandler);
+        }
+        if (!Util.isNull(consoleHandler)) {
+            logger.addHandler(consoleHandler);
+        }
+        //出力レベル
+        if (Util.isNull(level)) {
+            level = getLevel(); //レベルの指定がない場合はプロパティファイルから取得する
+        }
+        logger.setLevel(level);
+        //親 logger に送信しない
+        logger.setUseParentHandlers(false);
 
-		return logger;
-	}
+        return logger;
+    }
 
     /**
      * プロパティファイルから出力レベルを取得する
@@ -108,39 +108,39 @@ public final class LoggerFactory {
      * @return {@link Level} ; 出力レベル。
      *                          ファイル用と標準エラー出力用で優先順位の低いほうを返す。
      */
-	private static Level getLevel() {
-		Level levelFile = getLevel4File();
-		Level levelConsole = getLevel4Console();
-		return (levelFile.intValue() < levelConsole.intValue()) ? levelFile : levelConsole;
-	}
+    private static Level getLevel() {
+        Level levelFile = getLevel4File();
+        Level levelConsole = getLevel4Console();
+        return (levelFile.intValue() < levelConsole.intValue()) ? levelFile : levelConsole;
+    }
 
-	/**
+    /**
      * プロパティファイルから出力レベルを取得する（ファイル出力用）
      *
      * @return {@link Level} ; 出力レベル
      */
-	private static Level getLevel4File() {
-		Level level = Level.INFO; //出力レベルのデフォルト
-		try {
-			level = Level.parse(LoggerProperties.get("java.util.logging.FileHandler.level"));
-		} catch (Exception e) {
-			//なにもしない
-		}
-		return level;
-	}
+    private static Level getLevel4File() {
+        Level level = Level.INFO; //出力レベルのデフォルト
+        try {
+            level = Level.parse(LoggerProperties.get("java.util.logging.FileHandler.level"));
+        } catch (Exception e) {
+            //なにもしない
+        }
+        return level;
+    }
 
     /**
      * プロパティファイルから出力レベルを取得する（標準エラー出力用）
      *
      * @return {@link Level} ; 出力レベル
      */
-	private static Level getLevel4Console() {
-		Level level = Level.INFO; //出力レベルのデフォルト
-		try {
-			level = Level.parse(LoggerProperties.get("java.util.logging.ConsoleHandler.level"));
-		} catch (Exception e) {
-			//なにもしない
-		}
-		return level;
-	}
+    private static Level getLevel4Console() {
+        Level level = Level.INFO; //出力レベルのデフォルト
+        try {
+            level = Level.parse(LoggerProperties.get("java.util.logging.ConsoleHandler.level"));
+        } catch (Exception e) {
+            //なにもしない
+        }
+        return level;
+    }
 }
