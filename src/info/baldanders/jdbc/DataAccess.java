@@ -36,7 +36,7 @@ public final class DataAccess {
      * <br>mariaDB JDBC Driver を使用。
      * <br>https://mariadb.com/kb/en/mariadb/client-libraries/mariadb-java-client/
      *
-     * @return {@link DbStatement} ;
+     * @return {@link DataAccess} ; 接続済みのインスタンス
      * @throws ClassNotFoundException JDBC ドライバの登録に失敗した場合
      * @throws SQLException データベースの接続に失敗した場合
      * @throws IllegalArgumentException 接続情報を記述したプロパティファイルが存在しない場合
