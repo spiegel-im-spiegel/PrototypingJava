@@ -55,7 +55,7 @@ public final class Util {
         } else {
             StringBuilder sb = new StringBuilder();
             delimiter = null2String(delimiter);
-            if (Util.isBlank(delimiter)) {
+            if (isBlank(delimiter)) {
             	delimiter = ",";
             }
             int count = 0;
@@ -143,7 +143,7 @@ public final class Util {
      *                         parse に失敗した場合は例外ではなく {@code null} を返す。
      */
     public static Date string2Date(String str) {
-        return string2Date(str, Locale.JAPAN);
+        return string2Date(str, Locale.getDefault());
     }
 
     /**
