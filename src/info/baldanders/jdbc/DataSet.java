@@ -25,12 +25,20 @@ public final class DataSet {
     /** カラム数 */
     private int columnCount;
 
+    /** カラムのタイプ（{@link java.sql.Types}） */
+    private ArrayList<Integer> columnType;
+
+    /** カラム名 */
+    private ArrayList<String> columnName;
+
     /**
      * コンストラクタ
      */
     public DataSet() {
         this.row = null;
         this.columnCount = 0;
+        this.columnType = null;
+        this.columnName = null;
     }
 
     /**
@@ -42,6 +50,8 @@ public final class DataSet {
     public DataSet(ResultSet rs) throws SQLException {
         this.row = null;
         this.columnCount = 0;
+        this.columnType = null;
+        this.columnName = null;
         if (!Util.isNull(rs)) {
             //テーブル情報の取得
             getMetaData(rs);
@@ -71,6 +81,16 @@ public final class DataSet {
         } else {
             ResultSetMetaData metaData = rs.getMetaData();
             this.columnCount = metaData.getColumnCount(); //カラム数を取得する
+            boolean exist = false;
+            for (int col=0; col < this.columnCount; col++ ) {
+                if (!exist) {
+                    this.columnType = new ArrayList<Integer>();
+                    this.columnName = new ArrayList<String>();
+                    exist = true;
+                }
+                this.columnType.add(metaData.getColumnType(col+1));
+                this.columnName.add(metaData.getColumnName(col+1));
+            }
             return true;
         }
     }
@@ -121,6 +141,40 @@ public final class DataSet {
      */
     public int sizeColumn() {
         return this.columnCount;
+    }
+
+    /**
+     * 指定カラムのタイプを取得する
+     *
+     * @param  colNum : int : カラム番号（1,2,...）
+     * @return {@link java.sql.Types} ; カラムのタイプ
+     *                                  指定カラム番号が範囲外の場合は {@code Types.NULL} を返す。
+     */
+    public int geColumnType(int colNum) {
+        if (Common.isNull(this.columnType)) {
+            return Types.NULL;
+        } else if (colNum < 1 || sizeColumn() < colNum) {
+            return Types.NULL;
+        } else {
+            return this.columnType.get(colNum-1);
+        }
+    }
+
+    /**
+     * 指定カラムの名前を取得する
+     *
+     * @param  colNum : int : カラム番号（1,2,...）
+     * @return {@link String} ; カラム名
+     *                          指定カラム番号が範囲外の場合は {@code null} を返す。
+     */
+    public String geColumnName(int colNum) {
+        if (Common.isNull(this.columnType)) {
+            return null;
+        } else if (colNum < 1 || sizeColumn() < colNum) {
+            return null;
+        } else {
+            return this.columnName.get(colNum-1);
+        }
     }
 
     /**
