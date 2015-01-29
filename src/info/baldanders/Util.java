@@ -269,15 +269,28 @@ public final class Util {
             return false;
         } else {
             File file = new File(filePath);
-            if (file.exists()) {
-                if (file.isFile() && file.canWrite()) {
-                    return true;
-                } else {
-                    return false;
-                }
+            return canWriteFile(file);
+        }
+    }
+
+    /**
+     * ファイルが書き込み可能かどうかチェックする
+     *
+     * @param  file : {@link File} : ファイル
+     * @return boolean ; ファイルが {@code null} なら書き込み不可 {@code false} とする。
+     *                    ファイルが存在しないなら書き込み可 {@code true} とする。
+     */
+    public static boolean canWriteFile(File file){
+        if (isNull(file)) {
+            return false;
+        } else if (file.exists()) {
+            if (file.isFile() && file.canWrite()) {
+                return true;
             } else {
-                return true; //存在しないなら書き込み可とする
+                return false;
             }
+        } else {
+            return true; //存在しないなら書き込み可とする
         }
     }
 
@@ -293,15 +306,28 @@ public final class Util {
             return false;
         } else {
             File file = new File(filePath);
-            if (file.exists()) {
-                if (file.isFile() && file.canRead()) {
-                    return true;
-                } else {
-                    return false;
-                }
+            return canReadFile(file);
+        }
+    }
+
+    /**
+     * ファイルが読み込み可能かどうかチェックする
+     *
+     * @param  file : {@link File} : ファイル
+     * @return boolean ; ファイルが {@code null} なら読み込み不可 {@code false} とする。
+     *                    ファイルが存在しないなら読み込み不可 {@code false} とする
+     */
+    public static boolean canReadFile(File file){
+        if (isNull(file)) {
+            return false;
+        } else if (file.exists()) {
+            if (file.isFile() && file.canRead()) {
+                return true;
             } else {
                 return false;
             }
+        } else {
+            return false;
         }
     }
 }
