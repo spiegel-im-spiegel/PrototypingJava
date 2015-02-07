@@ -1,5 +1,7 @@
 # Java 関連コードのプロトタイピング
 
+[![Join the chat at https://gitter.im/spiegel-im-spiegel/PrototypingJava](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/spiegel-im-spiegel/PrototypingJava?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Warning
 
 These codes are prototypes, and are not safety.
